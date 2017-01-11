@@ -1,33 +1,3 @@
-const add = (sum, item) => {
-  return sum + item;
-}
-
-const findTotalSalesByProvince = (companies) => {
-  let totalSales = []
-  companies.forEach((company) => {
-      totalSales.push(
-        {
-          company: company.name,
-          province: company.province,
-          total_sales : company.sales.reduce(add, 0)
-        }
-      );
-  })
-  return totalSales;
-}
-
-const findTotalSalesByCompany = (companies) => {
-  let companyTotalSales = {}
-  companies.forEach((company) => {
-    if (!companyTotalSales[company.name]) {
-      companyTotalSales[company.name] = company.sales.reduce(add, 0)
-    } else {
-      companyTotalSales[company.name] += company.sales.reduce(add, 0)
-    }
-  })
-  return companyTotalSales;
-}
-
 const salesTaxRates = {
   AB: 0.05,
   BC: 0.12,
@@ -54,7 +24,6 @@ const companySalesData = [
 ];
 
 const getSalesTotal = (company) => {
-  // sum all values in company.sales
   return company.sales.reduce((a, b) => {
     return a + b;
   }, 0);
@@ -65,7 +34,7 @@ const getTaxTotal = (company) => {
   return getSalesTotal(company) * taxRate;
 };
 
-const calculateSalesTax = (companies, taxRates) => {
+const salesTaxReport = (companies, taxRates) => {
   let result = {}
   companies.forEach( (company) => {
     if (!result[company.name]) {
@@ -79,43 +48,11 @@ const calculateSalesTax = (companies, taxRates) => {
       result[company.name].totalSales += getSalesTotal(company)
       result[company.name].totalTaxes += getTaxTotal(company)
     }
-
   })
   return result
 }
 
-console.log(calculateSalesTax(companySalesData, salesTaxRates));
-
-let salesDataByProvince = findTotalSalesByProvince(companySalesData);
-  // result of findTotalSalesByProvince
-  // [ { company: 'Telus', province: 'BC', total_sales: 700 },
-  //   { company: 'Bombardier', province: 'AB', total_sales: 800 },
-  //   { company: 'Telus', province: 'SK', total_sales: 600 } ]
-
-let totalNationalSalesByCompany = findTotalSalesByCompany(companySalesData);
-  //result of findTotalSalesByCompany
-  // { Telus: 1300, Bombardier: 800 }
-
-// const taxesByProvince = (company, taxes) => {
-//   for (let taxRate in taxes) {
-//       console.log(value)
-//       // if (value.province == Object.keys(taxes
-//       taxes.forEach((province) => {
-//
-//       })
-//     })
-//   }
-// }
-//
-// console.log(taxesByProvince(salesTaxRates))
-// const calculateSalesTax = (salesData, taxRates) => {
-//
-// }
-
-// const calculateTax = (sales, taxRate) => {
-//   let companyTaxRate;
-//   if (salesTaxRates.hasOwnProperty(taxRate))
-// }
+console.log(salesTaxReport(companySalesData, salesTaxRates));
 
 // var results = salesTaxReport(companySalesData, salesTaxRates);
 
